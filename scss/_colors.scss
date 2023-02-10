@@ -3,7 +3,7 @@ $background_body: #47678b;
 $color_text: #FEEF1C;
 $poison: #B074C2;
 $plant: #91C546;
-$fire: #ED843El;
+$fire: #FD7D25;
 $bug:#7C9E4D;
 $fairy:#F3BCE6;
 $ghost: #77639F;
@@ -29,7 +29,53 @@ $water:#4592C3;
 .plant_background {
   background-color: $plant;
 }
+.fire_background {
+  background-color: $fire;
+}
+.bug_background {
+  background-color: $bug;
+}
+.fairy_background {
+  background-color: $fairy;
+}
+.ghost_background {
+  background-color: $ghost;
+}
 .dragon_background {
   background:$dragon;
+}
+.ground_background {
+  background: $ground;
+}
+.normal_background {
+  background_color: $normal;
+}
+.psychic_background {
+  background-color: $psychic;
+}
+.steel_background {
+  background-color: $steel;
+}
+.dark_background {
+  background-color: $dark;
+}
+.electric_background {
+  background-color: $electric;
+}
+.fight_background {
+  background-color: $fight;
+}
+
+.flyer_background {
+  background: $flyer;
+}
+.ice_background {
+  background-color: $ice;
+}
+.rock_background {
+  background-color: $rock;
+}
+.water_background{
+  background-color: $water;
 }
 

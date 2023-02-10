@@ -10,8 +10,68 @@
   background-color: #91C546;
 }
 
+.fire_background {
+  background-color: #FD7D25;
+}
+
+.bug_background {
+  background-color: #7C9E4D;
+}
+
+.fairy_background {
+  background-color: #F3BCE6;
+}
+
+.ghost_background {
+  background-color: #77639F;
+}
+
 .dragon_background {
   background: linear-gradient(to top, #52A4CF 0%, #52A4CF 50%, #F16D56 50%, #F16D56 100%);
+}
+
+.ground_background {
+  background: linear-gradient(to top, #F7DE3F 0%, #F7DE3F 50%, #AB9843 50%, #AB9843 100%);
+}
+
+.normal_background {
+  background_color: #A5ACAE;
+}
+
+.psychic_background {
+  background-color: #F366B9;
+}
+
+.steel_background {
+  background-color: #9EB7B9;
+}
+
+.dark_background {
+  background-color: #707070;
+}
+
+.electric_background {
+  background-color: #EED535;
+}
+
+.fight_background {
+  background-color: #D56724;
+}
+
+.flyer_background {
+  background: linear-gradient(to top, #3EC7EF 0%, #3EC7EF 50%, #BDB9B8 50%, #BDB9B8 100%);
+}
+
+.ice_background {
+  background-color: #51C3E7;
+}
+
+.rock_background {
+  background-color: #A38C22;
+}
+
+.water_background {
+  background-color: #4592C3;
 }
 
 /*# sourceMappingURL=style.css.map */
