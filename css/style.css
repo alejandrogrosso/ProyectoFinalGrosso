@@ -1,0 +1,17 @@
+.general_background {
+  background-color: #47678b;
+}
+
+.poison_background {
+  background-color: #B074C2;
+}
+
+.plant_background {
+  background-color: #91C546;
+}
+
+.dragon_background {
+  background: linear-gradient(to top, #52A4CF 0%, #52A4CF 50%, #F16D56 50%, #F16D56 100%);
+}
+
+/*# sourceMappingURL=style.css.map */
