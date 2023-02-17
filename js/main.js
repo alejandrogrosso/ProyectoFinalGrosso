@@ -17,6 +17,7 @@ class Pokemon{
     }
 }
 let pokemons=[];
+let pokemonsSee=[];
 function preCharge(){
     pokemons.push( new Pokemon(1,"Bulbasaur", ["Grass","Poison"]));
     pokemons.push(new Pokemon(2,"Ivysaur", ["Grass","Poison"]));
@@ -148,7 +149,7 @@ function setBackgroundSpecie(specie) {
     }
 }
 function renderPokemon(){
-    //pokemonBodyTable.innerHTML = "";
+    pokemonBodyTable.innerHTML = "";
     pokemons.forEach((pokemon)=>{
         const tr = document.createElement("tr");
         const tdNumber = document.createElement("td");
@@ -157,36 +158,6 @@ function renderPokemon(){
         tdNumber.className = "text-black-50"
         span.innerHTML = `${pokemon.number}`;
         tdNumber.append(span);
-
-        // Agregar evento de click al span para poner el input
-        // span.addEventListener("click", () => {
-        //
-        //     // Ocultar etiqueta span
-        //     span.className = "oculta";
-        //
-        //     // Creo el input que va a ser el cambio de nombre
-        //     const inputCambioDeNombre = document.createElement("input");
-        //     inputCambioDeNombre.value = producto.nombre;
-        //
-        //     // Detecto cambio en el input
-        //     inputCambioDeNombre.addEventListener("change", () => {
-        //
-        //         // Obtengo el nuevo nombre del producto a través del value del input
-        //         const nuevoNombre = inputCambioDeNombre.value;
-        //
-        //         // Removemos el input
-        //         inputCambioDeNombre.remove();
-        //
-        //         // Volver a poner el span
-        //         span.className = "visible";
-        //
-        //         // Editar nombre del producto
-        //         editarNombreProducto(producto, nuevoNombre);
-        //     });
-        //
-        //     // Agrego el input al td
-        //     tdNombre.append(inputCambioDeNombre);
-        // });
         const tdPhoto = document.createElement("td");
         tdPhoto.innerHTML = "";
         const tdName = document.createElement("td");
@@ -202,36 +173,37 @@ function renderPokemon(){
             tdSpecies.append(spanSpecies);
         }
 
-        //EJEMPLOO
-
-        // const spanSpecies = document.createElement("span");
-        // spanSpecies.className = "plant_background"
-        // spanSpecies.innerHTML = `${pokemon.species[0].toString()} `;
-        // tdSpecies.append(spanSpecies);
-        // const spanSpecies2 = document.createElement("span");
-        // spanSpecies2.className = "poison_background";
-        // spanSpecies2.innerHTML = `${pokemon.species[1].toString()} `;
-        // tdSpecies.append(spanSpecies2);
-
-
-
         const tdSee = document.createElement("td");
         const checkSeePokemon = document.createElement("input");
         checkSeePokemon.className="form-check-input"
         checkSeePokemon.setAttribute("type","checkbox");
         checkSeePokemon.defaultChecked = pokemon.see;
+        checkSeePokemon.id = pokemon.number;
         tdSee.append(checkSeePokemon);
+    checkSeePokemon.addEventListener("change",()=>{
+        let aaa = document.getElementById(checkSeePokemon.id);
+        if(aaa.checked){
+            pokemonsSee.push(pokemon)
+            localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
+        }else{
+            localStorage.removeItem("pokemonSee");
+            const indexPokemonToDelete = pokemonsSee.findIndex( (pokemonSeeToDelete) => {
+                return pokemonSeeToDelete.number === pokemon.number;
+            });
+            pokemonsSee.splice(indexPokemonToDelete, 1);
 
+            localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
+
+        }
+
+        }
+    )
         const tdCaught = document.createElement("td");
         const checkCaughtPokemon = document.createElement("input");
         checkCaughtPokemon.className="form-check-input"
         checkCaughtPokemon.setAttribute("type","checkbox");
         checkCaughtPokemon.defaultChecked = pokemon.caught;
         tdCaught.append(checkCaughtPokemon);
-        // Agregar evento al boton de eliminar
-        // botonEliminarProducto.addEventListener("click", () => {
-        //     eliminarProducto(producto);
-        // });
 
         tr.append(tdNumber);
         tr.append(tdPhoto)
