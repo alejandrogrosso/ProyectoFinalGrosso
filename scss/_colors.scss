@@ -2,7 +2,7 @@
 $background_body: #47678b;
 $color_text: #FEEF1C;
 $poison: #B074C2;
-$plant: #91C546;
+$grass: #91C546;
 $fire: #FD7D25;
 $bug:#7C9E4D;
 $fairy:#F3BCE6;
@@ -14,8 +14,8 @@ $psychic:#F366B9;
 $steel: #9EB7B9;
 $dark:#707070;
 $electric: #EED535;
-$fight:#D56724;
-$flyer:linear-gradient(to top, #3EC7EF 0%, #3EC7EF 50%,#BDB9B8 50%,#BDB9B8 100%);
+$fighting:#D56724;
+$flying:linear-gradient(to top, #3EC7EF 0%, #3EC7EF 50%,#BDB9B8 50%,#BDB9B8 100%);
 $ice:#51C3E7;
 $rock:#A38C22;
 $water:#4592C3;
@@ -26,8 +26,8 @@ $water:#4592C3;
 .poison_background {
   background-color: $poison;
 }
-.plant_background {
-  background-color: $plant;
+.grass_background {
+  background-color: $grass;
 }
 .fire_background {
   background-color: $fire;
@@ -62,12 +62,11 @@ $water:#4592C3;
 .electric_background {
   background-color: $electric;
 }
-.fight_background {
-  background-color: $fight;
+.fighting_background {
+  background-color: $fighting;
 }
-
-.flyer_background {
-  background: $flyer;
+.flying_background {
+  background: $flying;
 }
 .ice_background {
   background-color: $ice;

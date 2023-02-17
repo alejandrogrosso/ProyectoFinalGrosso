@@ -6,7 +6,7 @@
   background-color: #B074C2;
 }
 
-.plant_background {
+.grass_background {
   background-color: #91C546;
 }
 
@@ -54,11 +54,11 @@
   background-color: #EED535;
 }
 
-.fight_background {
+.fighting_background {
   background-color: #D56724;
 }
 
-.flyer_background {
+.flying_background {
   background: linear-gradient(to top, #3EC7EF 0%, #3EC7EF 50%, #BDB9B8 50%, #BDB9B8 100%);
 }
 

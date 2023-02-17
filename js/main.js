@@ -18,66 +18,137 @@ class Pokemon{
 }
 let pokemons=[];
 function preCharge(){
-    pokemons.push( new Pokemon(1,"Bulbasaur", ["Planta","Veneno"]));
-    pokemons.push(new Pokemon(2,"Ivysaur", ["Planta","Veneno"]));
-    pokemons.push(new Pokemon(3,"Venusaur", ["Planta","Veneno"]));
-    pokemons.push(new Pokemon(4,"Charmander", ["Fuego"]));
-    pokemons.push(new Pokemon(5,"Charmeleon", ["Fuego"]));
-    pokemons.push(new Pokemon(6,"Charizard", ["Fuego","Volador"]));
-    pokemons.push(new Pokemon(7,"Squirtle", ["Agua"]));
-    pokemons.push(new Pokemon(8,"Wartortle", ["Agua"]));
-    pokemons.push(new Pokemon(9,"Blastoise", ["Agua"]));
-    pokemons.push(new Pokemon(10,"Caterpie", ["Bicho"]));
-    pokemons.push(new Pokemon(11,"Metapod", ["Bicho"]));
-    pokemons.push(new Pokemon(12,"Butterfree", ["Bicho","Volador"]));
+    pokemons.push( new Pokemon(1,"Bulbasaur", ["Grass","Poison"]));
+    pokemons.push(new Pokemon(2,"Ivysaur", ["Grass","Poison"]));
+    pokemons.push(new Pokemon(3,"Venusaur", ["Grass","Poison"]));
+    pokemons.push(new Pokemon(4,"Charmander", ["Fire"]));
+    pokemons.push(new Pokemon(5,"Charmeleon", ["Fire"]));
+    pokemons.push(new Pokemon(6,"Charizard", ["Fire","Flying"]));
+    pokemons.push(new Pokemon(7,"Squirtle", ["Water"]));
+    pokemons.push(new Pokemon(8,"Wartortle", ["Water"]));
+    pokemons.push(new Pokemon(9,"Blastoise", ["Water"]));
+    pokemons.push(new Pokemon(10,"Caterpie", ["Bug"]));
+    pokemons.push(new Pokemon(11,"Metapod", ["Bug"]));
+    pokemons.push(new Pokemon(12,"Butterfree", ["Bug","Flying"]));
+}
+function translate(specie) {
+        switch (specie) {
+            case "Bug":
+                return "Bicho"
+                break;
+            case "Dragon":
+                return "Dragon"
+                break;
+            case "Fairy":
+                return "Hada"
+                break;
+            case "Fire":
+                return "Fuego"
+                break;
+            case "Ghost":
+                return "Fantasma"
+                break;
+            case "Ground":
+                return "Tierra"
+                break;
+            case "Normal":
+                return "Normal"
+                break;
+            case "Psychic":
+                return "Psiquico"
+                break;
+            case "Steel":
+                return "Acero"
+                break;
+            case "Dark":
+                return "Siniestro"
+                break;
+            case "Electric":
+                return "Electrico"
+                break;
+            case "Fighting":
+                return "Lucha"
+                break;
+            case "Flying":
+                return "Volador"
+                break;
+            case "Grass":
+                return "Planta"
+                break;
+            case "Ice":
+                return "Hielo"
+                break;
+            case "Poison":
+                return "Veneno"
+                break;
+            case "Rock":
+                return "Roca"
+                break;
+            case "Water":
+                return "Agua"
+                break;
+    }
 }
 function setBackgroundSpecie(specie) {
     switch (specie) {
-        case "":
-
+        case "Bug":
+            return "bug_background text-white"
             break;
-        case "":
+        case "Dragon":
+            return "dragon_background text-white"
             break;
-        case "":
+        case "Fairy":
+            return "fairy_background"
             break;
-        case "":
+        case "Fire":
+            return "fire_background text-white"
             break;
-        case "":
+        case "Ghost":
+            return "ghost_background text-white"
             break;
-        case "":
+        case "Ground":
+            return "ground_background"
             break;
-        case "":
+        case "Normal":
+            return "normal_background"
             break;
-        case "":
+        case "Psychic":
+            return "psychic_background text-white"
             break;
-        case "":
+        case "Steel":
+            return "steel_background"
             break;
-        case "":
+        case "Dark":
+            return "dark_background text-white"
             break;
-        case "":
+        case "Electric":
+            return "electric_background"
             break;
-        case "":
+        case "Fighting":
+            return "fighting_background text-white"
             break;
-        case "":
+        case "Flying":
+            return "flying_background"
             break;
-        case "":
+        case "Grass":
+            return "grass_background"
             break;
-        case "":
+        case "Ice":
+            return "ice_background"
             break;
-        case "":
+        case "Poison":
+            return "poison_background text-white"
             break;
-        case "":
+        case "Rock":
+            return "rock_background text-white"
             break;
-        case "":
-            break;
-        case "":
-            break;
-        case "":
+        case "Water":
+            return "water_background text-white"
             break;
     }
 }
 function renderPokemon(){
-   // pokemonBodyTable.innerHTML = "";
+    //pokemonBodyTable.innerHTML = "";
     pokemons.forEach((pokemon)=>{
         const tr = document.createElement("tr");
         const tdNumber = document.createElement("td");
@@ -126,13 +197,13 @@ function renderPokemon(){
 
         for (let i = 0; i < pokemon.species.length; i++) {
             const spanSpecies = document.createElement("span");
-            spanSpecies.className = "plant_background"
-            spanSpecies.innerHTML = `${pokemon.species[i].toString()} `;
+            spanSpecies.className = `${setBackgroundSpecie(pokemon.species[i])} m-1 p-1 rounded-pill`
+            spanSpecies.innerHTML = translate(`${pokemon.species[i].toString()}`);
             tdSpecies.append(spanSpecies);
         }
 
         //EJEMPLOO
-        
+
         // const spanSpecies = document.createElement("span");
         // spanSpecies.className = "plant_background"
         // spanSpecies.innerHTML = `${pokemon.species[0].toString()} `;
