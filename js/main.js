@@ -5,19 +5,20 @@ class Pokemon{
         this.number = number;
         this.name = name;
         this.species = species;
-        this.see = false;
+        // this.see = false;
         this.caught =false;
     }
 
-    setSee(see){
-        this.see = see;
-    }
+    // setSee(see){
+    //     this.see = see;
+    // }
     setCaught(caught){
         this.caught = caught;
     }
 }
 let pokemons=[];
-let pokemonsSee=[];
+// let pokemonsSee=[];
+let pokemonCaught=[];
 function preCharge(){
     pokemons.push( new Pokemon(1,"Bulbasaur", ["Grass","Poison"]));
     pokemons.push(new Pokemon(2,"Ivysaur", ["Grass","Poison"]));
@@ -173,51 +174,98 @@ function renderPokemon(){
             tdSpecies.append(spanSpecies);
         }
 
-        const tdSee = document.createElement("td");
-        const checkSeePokemon = document.createElement("input");
-        checkSeePokemon.className="form-check-input"
-        checkSeePokemon.setAttribute("type","checkbox");
-        checkSeePokemon.defaultChecked = pokemon.see;
-        checkSeePokemon.id = pokemon.number;
-        tdSee.append(checkSeePokemon);
-    checkSeePokemon.addEventListener("change",()=>{
-        let aaa = document.getElementById(checkSeePokemon.id);
-        if(aaa.checked){
-            pokemonsSee.push(pokemon)
-            localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
-        }else{
-            localStorage.removeItem("pokemonSee");
-            const indexPokemonToDelete = pokemonsSee.findIndex( (pokemonSeeToDelete) => {
-                return pokemonSeeToDelete.number === pokemon.number;
-            });
-            pokemonsSee.splice(indexPokemonToDelete, 1);
-
-            localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
-
-        }
-
-        }
-    )
+    //     const tdSee = document.createElement("td");
+    //     const checkSeePokemon = document.createElement("input");
+    //     checkSeePokemon.className="form-check-input"
+    //     checkSeePokemon.setAttribute("type","checkbox");
+    //     checkSeePokemon.defaultChecked = pokemon.see;
+    //     checkSeePokemon.id = pokemon.number;
+    //     tdSee.append(checkSeePokemon);
+    // checkSeePokemon.addEventListener("change",()=>{
+    //     let seeCheckedId = document.getElementById(checkSeePokemon.id);
+    //     if(seeCheckedId.checked){
+    //         pokemonsSee.push(pokemon)
+    //         localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
+    //     }else{
+    //         localStorage.removeItem("pokemonSee");
+    //         const indexPokemonToDelete = pokemonsSee.findIndex( (pokemonSeeToDelete) => {
+    //             return pokemonSeeToDelete.number === pokemon.number;
+    //         });
+    //         pokemonsSee.splice(indexPokemonToDelete, 1);
+    //         localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
+    //     }
+    //
+    //     }
+    // )
         const tdCaught = document.createElement("td");
         const checkCaughtPokemon = document.createElement("input");
         checkCaughtPokemon.className="form-check-input"
         checkCaughtPokemon.setAttribute("type","checkbox");
         checkCaughtPokemon.defaultChecked = pokemon.caught;
+        checkCaughtPokemon.id = pokemon.number;
         tdCaught.append(checkCaughtPokemon);
+        checkCaughtPokemon.addEventListener("change",()=>{
+                let caughtCheckId = document.getElementById(checkCaughtPokemon.id);
+                if(caughtCheckId.checked){
+                    pokemon.caught = true;
+                    pokemonCaught.push(pokemon)
+                    localStorage.setItem("pokemonCaught", JSON.stringify(pokemonCaught))
+                }else{
+                    localStorage.removeItem("pokemonCaught");
+                    const indexPokemonToDelete = pokemonCaught.findIndex( (pokemonCaughtToDelete) => {
+                        return pokemonCaughtToDelete.number === pokemon.number;
+                    });
+                    pokemonCaught.splice(indexPokemonToDelete, 1);
+                    localStorage.setItem("pokemonCaught", JSON.stringify(pokemonCaught))
+                }
 
+            }
+        )
         tr.append(tdNumber);
         tr.append(tdPhoto)
         tr.append(tdName);
         tr.append(tdSpecies);
-        tr.append(tdSee);
-        tr.append(tdCaught);
-
+        // tr.append(tdSee);
+         tr.append(tdCaught);
         pokemonBodyTable.append(tr);
     });
 
 }
+function getPokemonsLS () {
+    let pokemonsLS = localStorage.getItem("pokemonCaught");
+    if(pokemonsLS !== null) {
+        const pokemonsJSON = JSON.parse(pokemonsLS);
+        for(const pokemonJSON of pokemonsJSON) {
+            let pokeAux = new Pokemon(pokemonJSON.number,pokemonJSON.name,pokemonJSON.species);
+            pokeAux.setCaught(pokemonJSON.caught);
+
+            if(pokeAux.caught){
+                const indexPokemonToDelete = pokemons.findIndex( (pokemonToDelete) => {
+                    return pokemonToDelete.number === pokeAux.number;
+                });
+                pokemonCaught.push(pokeAux)
+                pokemons.splice(indexPokemonToDelete, 1);
+                pokemons.push(pokeAux);
+                pokemons.sort((p1,p2)=>(p1.number>p2.number)?1:(p1.number<p2.number)?-1:0);
+            }
+        }
+    }
+}
 preCharge();
+getPokemonsLS ()
 renderPokemon();
+const inputFind= document.getElementById("findPokemon");
+inputFind.addEventListener("input", () => {
+
+    const wordToSearch = inputFind.value;
+
+    // Filtro los productos
+    const pokemonsFilter = pokemons.filter( (pokemon) => {
+        return pokemon.name.toLowerCase().includes(wordToSearch.toLowerCase());
+    });
+
+    renderizarProductos(productosFiltrados);
+});
 pokemons.forEach((pokemon) => {
     console.log(pokemon);
 })
