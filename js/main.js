@@ -1,37 +1,31 @@
 class Pokemon{
     caught;
-    see;
-    constructor(number, name, species){
+    constructor(number, name, species,image){
         this.number = number;
         this.name = name;
         this.species = species;
-        // this.see = false;
         this.caught =false;
+        this.image = image;
     }
-
-    // setSee(see){
-    //     this.see = see;
-    // }
     setCaught(caught){
         this.caught = caught;
     }
 }
 let pokemons=[];
-// let pokemonsSee=[];
 let pokemonCaught=[];
 function preCharge(){
-    pokemons.push( new Pokemon(1,"Bulbasaur", ["Grass","Poison"]));
-    pokemons.push(new Pokemon(2,"Ivysaur", ["Grass","Poison"]));
-    pokemons.push(new Pokemon(3,"Venusaur", ["Grass","Poison"]));
-    pokemons.push(new Pokemon(4,"Charmander", ["Fire"]));
-    pokemons.push(new Pokemon(5,"Charmeleon", ["Fire"]));
-    pokemons.push(new Pokemon(6,"Charizard", ["Fire","Flying"]));
-    pokemons.push(new Pokemon(7,"Squirtle", ["Water"]));
-    pokemons.push(new Pokemon(8,"Wartortle", ["Water"]));
-    pokemons.push(new Pokemon(9,"Blastoise", ["Water"]));
-    pokemons.push(new Pokemon(10,"Caterpie", ["Bug"]));
-    pokemons.push(new Pokemon(11,"Metapod", ["Bug"]));
-    pokemons.push(new Pokemon(12,"Butterfree", ["Bug","Flying"]));
+    pokemons.push( new Pokemon(1,"Bulbasaur", ["Grass","Poison"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"));
+    pokemons.push(new Pokemon(2,"Ivysaur", ["Grass","Poison"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png"));
+    pokemons.push(new Pokemon(3,"Venusaur", ["Grass","Poison"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png"));
+    pokemons.push(new Pokemon(4,"Charmander", ["Fire"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png"));
+    pokemons.push(new Pokemon(5,"Charmeleon", ["Fire"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/005.png"));
+    pokemons.push(new Pokemon(6,"Charizard", ["Fire","Flying"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/006.png"));
+    pokemons.push(new Pokemon(7,"Squirtle", ["Water"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png"));
+    pokemons.push(new Pokemon(8,"Wartortle", ["Water"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/008.png"));
+    pokemons.push(new Pokemon(9,"Blastoise", ["Water"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/009.png"));
+    pokemons.push(new Pokemon(10,"Caterpie", ["Bug"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/010.png"));
+    pokemons.push(new Pokemon(11,"Metapod", ["Bug"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/011.png"));
+    pokemons.push(new Pokemon(12,"Butterfree", ["Bug","Flying"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/012.png"));
 }
 function translate(specie) {
         switch (specie) {
@@ -149,9 +143,9 @@ function setBackgroundSpecie(specie) {
             break;
     }
 }
-function renderPokemon(){
+function renderPokemon(listPokemon){
     pokemonBodyTable.innerHTML = "";
-    pokemons.forEach((pokemon)=>{
+    listPokemon.forEach((pokemon)=>{
         const tr = document.createElement("tr");
         const tdNumber = document.createElement("td");
         const span = document.createElement("span");
@@ -173,30 +167,6 @@ function renderPokemon(){
             spanSpecies.innerHTML = translate(`${pokemon.species[i].toString()}`);
             tdSpecies.append(spanSpecies);
         }
-
-    //     const tdSee = document.createElement("td");
-    //     const checkSeePokemon = document.createElement("input");
-    //     checkSeePokemon.className="form-check-input"
-    //     checkSeePokemon.setAttribute("type","checkbox");
-    //     checkSeePokemon.defaultChecked = pokemon.see;
-    //     checkSeePokemon.id = pokemon.number;
-    //     tdSee.append(checkSeePokemon);
-    // checkSeePokemon.addEventListener("change",()=>{
-    //     let seeCheckedId = document.getElementById(checkSeePokemon.id);
-    //     if(seeCheckedId.checked){
-    //         pokemonsSee.push(pokemon)
-    //         localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
-    //     }else{
-    //         localStorage.removeItem("pokemonSee");
-    //         const indexPokemonToDelete = pokemonsSee.findIndex( (pokemonSeeToDelete) => {
-    //             return pokemonSeeToDelete.number === pokemon.number;
-    //         });
-    //         pokemonsSee.splice(indexPokemonToDelete, 1);
-    //         localStorage.setItem("pokemonSee", JSON.stringify(pokemonsSee))
-    //     }
-    //
-    //     }
-    // )
         const tdCaught = document.createElement("td");
         const checkCaughtPokemon = document.createElement("input");
         checkCaughtPokemon.className="form-check-input"
@@ -225,8 +195,7 @@ function renderPokemon(){
         tr.append(tdPhoto)
         tr.append(tdName);
         tr.append(tdSpecies);
-        // tr.append(tdSee);
-         tr.append(tdCaught);
+        tr.append(tdCaught);
         pokemonBodyTable.append(tr);
     });
 
@@ -253,20 +222,13 @@ function getPokemonsLS () {
 }
 preCharge();
 getPokemonsLS ()
-renderPokemon();
+renderPokemon(pokemons);
 const inputFind= document.getElementById("findPokemon");
 inputFind.addEventListener("input", () => {
-
     const wordToSearch = inputFind.value;
-
-    // Filtro los productos
     const pokemonsFilter = pokemons.filter( (pokemon) => {
         return pokemon.name.toLowerCase().includes(wordToSearch.toLowerCase());
     });
-
-    renderizarProductos(productosFiltrados);
+    renderPokemon(pokemonsFilter);
 });
-pokemons.forEach((pokemon) => {
-    console.log(pokemon);
-})
 
