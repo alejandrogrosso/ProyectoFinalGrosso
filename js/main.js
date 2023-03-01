@@ -176,11 +176,30 @@ function renderPokemon(listPokemon){
         tdCaught.append(checkCaughtPokemon);
         checkCaughtPokemon.addEventListener("change",()=>{
                 let caughtCheckId = document.getElementById(checkCaughtPokemon.id);
+
                 if(caughtCheckId.checked){
+                    Toastify({
+                        text: `Se agrego ${pokemon.name}`,
+                        className: "success",
+                        gravity: "bottom",
+                        position: "right",
+                        style:{
+                            background : "#13803D"
+                        },
+                    }).showToast();
                     pokemon.caught = true;
                     pokemonCaught.push(pokemon)
                     localStorage.setItem("pokemonCaught", JSON.stringify(pokemonCaught))
                 }else{
+                    Toastify({
+                        text: `Se elimino ${pokemon.name}`,
+                        className: "delete",
+                        gravity: "bottom",
+                        position: "right",
+                        style:{
+                            background : "#DC4C64"
+                        },
+                    }).showToast();
                     localStorage.removeItem("pokemonCaught");
                     const indexPokemonToDelete = pokemonCaught.findIndex( (pokemonCaughtToDelete) => {
                         return pokemonCaughtToDelete.number === pokemon.number;

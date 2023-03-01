@@ -163,26 +163,39 @@ function renderPokemon(listPokemon){
         buttonDelete.className = "btn btn-outline-danger rounded-3 btn-sm mt-3"
         buttonDelete.innerHTML="Eliminar"
 
-
-
         buttonDelete.addEventListener("click",()=>{
+            Swal.fire({
+                title: `¿Está seguro que desea eliminar a ${pokemon.name}?`,
+                icon: 'info',
+                confirmButtonText: 'SÍ',
+                showDenyButton: true,
+                denyButtonText: 'NO',
+            }).then( (resultado) => {
+                if(resultado.isConfirmed) {
+                    Swal.fire({
+                        title: `Se elimino ${pokemon.name}`,
+                        icon: 'success',
+
+                    });
+
                     localStorage.removeItem("pokemonCaught");
                     const indexPokemonToDelete = pokemons.findIndex( (pokemonCaughtToDelete) => {
                         return pokemonCaughtToDelete.number === pokemon.number;
                     });
-            pokemons.splice(indexPokemonToDelete, 1);
+                    pokemons.splice(indexPokemonToDelete, 1);
                     localStorage.setItem("pokemonCaught", JSON.stringify(pokemons))
-            renderPokemon(pokemons);
+                    renderPokemon(pokemons);
+                } else if(resultado.isDenied) {
+                    Swal.fire({
+                        title: `Se cancelo eliminar ${pokemon.name}`,
+                        icon: 'error',
+                    });
+                }
+            });
+
             }
 
         )
-
-
-
-
-
-
-
 
         cardDiv.append(img);
         cardDiv.append(cardBodyDiv);
