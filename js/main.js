@@ -13,6 +13,23 @@ class Pokemon{
 }
 let pokemons=[];
 let pokemonCaught=[];
+const url = "https://pokeapi.co/api/v2/pokemon-form/";
+async function obtenerPokemons(json){
+    for(let i=1; i<json.results.length; i++){
+      let response2=   await fetch(`${url}${i}`);
+      let pokemon = await response2.json();
+      pokemons.push(pokemon)
+    }
+    getPokemonsLS ()
+    renderPokemon(pokemons);
+}
+fetch(url).then((response)=>{
+    return response.json();
+}).then((json)=>{
+
+    obtenerPokemons(json);
+
+});
 function preCharge(){
     pokemons.push( new Pokemon(1,"Bulbasaur", ["Grass","Poison"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"));
     pokemons.push(new Pokemon(2,"Ivysaur", ["Grass","Poison"],"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png"));
@@ -29,150 +46,157 @@ function preCharge(){
 }
 function translate(specie) {
         switch (specie) {
-            case "Bug":
+            case "bug":
                 return "Bicho"
                 break;
-            case "Dragon":
+            case "dragon":
                 return "Dragon"
                 break;
-            case "Fairy":
+            case "fairy":
                 return "Hada"
                 break;
-            case "Fire":
+            case "fire":
                 return "Fuego"
                 break;
-            case "Ghost":
+            case "ghost":
                 return "Fantasma"
                 break;
-            case "Ground":
+            case "ground":
                 return "Tierra"
                 break;
-            case "Normal":
+            case "normal":
                 return "Normal"
                 break;
-            case "Psychic":
+            case "psychic":
                 return "Psiquico"
                 break;
-            case "Steel":
+            case "steel":
                 return "Acero"
                 break;
-            case "Dark":
+            case "dark":
                 return "Siniestro"
                 break;
-            case "Electric":
+            case "electric":
                 return "Electrico"
                 break;
-            case "Fighting":
+            case "fighting":
                 return "Lucha"
                 break;
-            case "Flying":
+            case "flying":
                 return "Volador"
                 break;
-            case "Grass":
+            case "grass":
                 return "Planta"
                 break;
-            case "Ice":
+            case "ice":
                 return "Hielo"
                 break;
-            case "Poison":
+            case "poison":
                 return "Veneno"
                 break;
-            case "Rock":
+            case "rock":
                 return "Roca"
                 break;
-            case "Water":
+            case "water":
                 return "Agua"
                 break;
     }
 }
 function setBackgroundSpecie(specie) {
     switch (specie) {
-        case "Bug":
+        case "bug":
             return "bug_background text-white"
             break;
-        case "Dragon":
+        case "dragon":
             return "dragon_background text-white"
             break;
-        case "Fairy":
+        case "fairy":
             return "fairy_background"
             break;
-        case "Fire":
+        case "fire":
             return "fire_background text-white"
             break;
-        case "Ghost":
+        case "ghost":
             return "ghost_background text-white"
             break;
-        case "Ground":
+        case "ground":
             return "ground_background"
             break;
-        case "Normal":
+        case "normal":
             return "normal_background"
             break;
-        case "Psychic":
+        case "psychic":
             return "psychic_background text-white"
             break;
-        case "Steel":
+        case "steel":
             return "steel_background"
             break;
-        case "Dark":
+        case "dark":
             return "dark_background text-white"
             break;
-        case "Electric":
+        case "electric":
             return "electric_background"
             break;
-        case "Fighting":
+        case "fighting":
             return "fighting_background text-white"
             break;
-        case "Flying":
+        case "flying":
             return "flying_background"
             break;
-        case "Grass":
+        case "grass":
             return "grass_background"
             break;
-        case "Ice":
+        case "ice":
             return "ice_background"
             break;
-        case "Poison":
+        case "poison":
             return "poison_background text-white"
             break;
-        case "Rock":
+        case "rock":
             return "rock_background text-white"
             break;
-        case "Water":
+        case "water":
             return "water_background text-white"
             break;
     }
 }
+function capitalizeFirstLetter(str) {
+
+    const capitalized = str.replace(/^./, str[0].toUpperCase());
+
+    return capitalized;
+}
 function renderPokemon(listPokemon){
     pokemonBodyTable.innerHTML = "";
     listPokemon.forEach((pokemon)=>{
+        console.log(pokemon);
         const tr = document.createElement("tr");
         const tdNumber = document.createElement("td");
         const span = document.createElement("span");
         tdNumber.scope="row";
         tdNumber.className = "text-black-50"
-        span.innerHTML = `${pokemon.number}`;
+        span.innerHTML = `${pokemon.id}`;
         tdNumber.append(span);
         const tdPhoto = document.createElement("td");
         tdPhoto.innerHTML = "";
         const tdName = document.createElement("td");
         tdName.className="fw-bold"
-        tdName.innerHTML = `${pokemon.name}`;
+        tdName.innerHTML = capitalizeFirstLetter(pokemon.name);
 
         const tdSpecies = document.createElement("td");
 
-        for (let i = 0; i < pokemon.species.length; i++) {
+        for (let i = 0; i < pokemon.types.length; i++) {
             const spanSpecies = document.createElement("span");
-            spanSpecies.className = `${setBackgroundSpecie(pokemon.species[i])} m-1 p-1 rounded-pill`
-            spanSpecies.innerHTML = translate(`${pokemon.species[i].toString()}`);
+            spanSpecies.className = `${setBackgroundSpecie(pokemon.types[i].type.name)} m-1 p-1 rounded-pill`
+            spanSpecies.innerHTML = translate(`${pokemon.types[i].type.name}`);
             tdSpecies.append(spanSpecies);
         }
         const tdCaught = document.createElement("td");
         const checkCaughtPokemon = document.createElement("input");
         checkCaughtPokemon.className="form-check-input"
         checkCaughtPokemon.setAttribute("type","checkbox");
-        checkCaughtPokemon.defaultChecked = pokemon.caught;
-        checkCaughtPokemon.id = pokemon.number;
+        checkCaughtPokemon.defaultChecked =  pokemonCaught.some( (pokemonCau) =>pokemonCau.id ==pokemon.id);
+        checkCaughtPokemon.id = pokemon.id;
         tdCaught.append(checkCaughtPokemon);
         checkCaughtPokemon.addEventListener("change",()=>{
                 let caughtCheckId = document.getElementById(checkCaughtPokemon.id);
@@ -202,7 +226,7 @@ function renderPokemon(listPokemon){
                     }).showToast();
                     localStorage.removeItem("pokemonCaught");
                     const indexPokemonToDelete = pokemonCaught.findIndex( (pokemonCaughtToDelete) => {
-                        return pokemonCaughtToDelete.number === pokemon.number;
+                        return pokemonCaughtToDelete.id === pokemon .id;
                     });
                     pokemonCaught.splice(indexPokemonToDelete, 1);
                     localStorage.setItem("pokemonCaught", JSON.stringify(pokemonCaught))
@@ -219,29 +243,32 @@ function renderPokemon(listPokemon){
     });
 
 }
+
 function getPokemonsLS () {
     let pokemonsLS = localStorage.getItem("pokemonCaught");
     if(pokemonsLS !== null) {
         const pokemonsJSON = JSON.parse(pokemonsLS);
         for(const pokemonJSON of pokemonsJSON) {
-            let pokeAux = new Pokemon(pokemonJSON.number,pokemonJSON.name,pokemonJSON.species);
-            pokeAux.setCaught(pokemonJSON.caught);
-
-            if(pokeAux.caught){
-                const indexPokemonToDelete = pokemons.findIndex( (pokemonToDelete) => {
-                    return pokemonToDelete.number === pokeAux.number;
-                });
-                pokemonCaught.push(pokeAux)
-                pokemons.splice(indexPokemonToDelete, 1);
-                pokemons.push(pokeAux);
-                pokemons.sort((p1,p2)=>(p1.number>p2.number)?1:(p1.number<p2.number)?-1:0);
-            }
+            //let pokeAux = new Pokemon(pokemonJSON.number,pokemonJSON.name,pokemonJSON.species);
+            let pokeAux = pokemonJSON;
+            pokemonCaught.push(pokeAux);
+            // pokeAux.setCaught(pokemonJSON.caught);
+            //
+            // if(pokeAux.caught){
+            //     const indexPokemonToDelete = pokemons.findIndex( (pokemonToDelete) => {
+            //         return pokemonToDelete.number === pokeAux.number;
+            //     });
+            //     pokemonCaught.push(pokeAux)
+            //     pokemons.splice(indexPokemonToDelete, 1);
+            //     pokemons.push(pokeAux);
+            //     pokemons.sort((p1,p2)=>(p1.number>p2.number)?1:(p1.number<p2.number)?-1:0);
+            // }
         }
     }
 }
-preCharge();
-getPokemonsLS ()
-renderPokemon(pokemons);
+// preCharge();
+
+
 const inputFind= document.getElementById("findPokemon");
 inputFind.addEventListener("input", () => {
     const wordToSearch = inputFind.value;

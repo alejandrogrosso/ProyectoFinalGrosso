@@ -17,119 +17,125 @@ class Pokemon{
 let pokemons=[];
 function translate(specie) {
     switch (specie) {
-        case "Bug":
+        case "bug":
             return "Bicho"
             break;
-        case "Dragon":
+        case "dragon":
             return "Dragon"
             break;
-        case "Fairy":
+        case "fairy":
             return "Hada"
             break;
-        case "Fire":
+        case "fire":
             return "Fuego"
             break;
-        case "Ghost":
+        case "ghost":
             return "Fantasma"
             break;
-        case "Ground":
+        case "ground":
             return "Tierra"
             break;
-        case "Normal":
+        case "normal":
             return "Normal"
             break;
-        case "Psychic":
+        case "psychic":
             return "Psiquico"
             break;
-        case "Steel":
+        case "steel":
             return "Acero"
             break;
-        case "Dark":
+        case "dark":
             return "Siniestro"
             break;
-        case "Electric":
+        case "electric":
             return "Electrico"
             break;
-        case "Fighting":
+        case "fighting":
             return "Lucha"
             break;
-        case "Flying":
+        case "flying":
             return "Volador"
             break;
-        case "Grass":
+        case "grass":
             return "Planta"
             break;
-        case "Ice":
+        case "ice":
             return "Hielo"
             break;
-        case "Poison":
+        case "poison":
             return "Veneno"
             break;
-        case "Rock":
+        case "rock":
             return "Roca"
             break;
-        case "Water":
+        case "water":
             return "Agua"
             break;
     }
 }
 function setBackgroundSpecie(specie) {
     switch (specie) {
-        case "Bug":
+        case "bug":
             return "bug_background text-white"
             break;
-        case "Dragon":
+        case "dragon":
             return "dragon_background text-white"
             break;
-        case "Fairy":
+        case "fairy":
             return "fairy_background"
             break;
-        case "Fire":
+        case "fire":
             return "fire_background text-white"
             break;
-        case "Ghost":
+        case "ghost":
             return "ghost_background text-white"
             break;
-        case "Ground":
+        case "ground":
             return "ground_background"
             break;
-        case "Normal":
+        case "normal":
             return "normal_background"
             break;
-        case "Psychic":
+        case "psychic":
             return "psychic_background text-white"
             break;
-        case "Steel":
+        case "steel":
             return "steel_background"
             break;
-        case "Dark":
+        case "dark":
             return "dark_background text-white"
             break;
-        case "Electric":
+        case "electric":
             return "electric_background"
             break;
-        case "Fighting":
+        case "fighting":
             return "fighting_background text-white"
             break;
-        case "Flying":
+        case "flying":
             return "flying_background"
             break;
-        case "Grass":
+        case "grass":
             return "grass_background"
             break;
-        case "Ice":
+        case "ice":
             return "ice_background"
             break;
-        case "Poison":
+        case "poison":
             return "poison_background text-white"
             break;
-        case "Rock":
+        case "rock":
             return "rock_background text-white"
             break;
-        case "Water":
+        case "water":
             return "water_background text-white"
             break;
     }
+}
+function capitalizeFirstLetter(str) {
+
+    const capitalized = str.replace(/^./, str[0].toUpperCase());
+
+    return capitalized;
 }
 function renderPokemon(listPokemon){
     principalDiv.innerHTML = "";
@@ -140,7 +146,7 @@ function renderPokemon(listPokemon){
         cardDiv.className="card"
         const img = document.createElement("img");
         img.className="card-img-top"
-        img.src=pokemon.image;
+        img.src=pokemon.sprites.front_default;
         img.alt="Imagen de pokemon"
         const cardBodyDiv = document.createElement("div");
         cardBodyDiv.className="card-body"
@@ -148,14 +154,14 @@ function renderPokemon(listPokemon){
         cardBodyTextDiv.className="card-text"
         const pokemonNumberP = document.createElement("p");
         pokemonNumberP.className= "text-black-50"
-        pokemonNumberP.innerHTML = `N.º ${pokemon.number}`
+        pokemonNumberP.innerHTML = `N.º ${pokemon.id}`
         const pokemonNameH5 = document.createElement("h5");
         pokemonNameH5.innerHTML=pokemon.name;
         const speciesDiv = document.createElement("div");
-        for (let i = 0; i < pokemon.species.length; i++) {
+        for (let i = 0; i < pokemon.types.length; i++) {
             const spanSpecies = document.createElement("span");
-            spanSpecies.className = `${setBackgroundSpecie(pokemon.species[i])} m-1 p-1 rounded-pill`
-            spanSpecies.innerHTML = translate(`${pokemon.species[i].toString()}`);
+            spanSpecies.className = `${setBackgroundSpecie(pokemon.types[i].type.name)} m-1 p-1 rounded-pill`
+            spanSpecies.innerHTML = translate(`${pokemon.types[i].type.name}`);
             speciesDiv.append(spanSpecies);
         }
         const buttonDelete = document.createElement("button");
@@ -180,7 +186,7 @@ function renderPokemon(listPokemon){
 
                     localStorage.removeItem("pokemonCaught");
                     const indexPokemonToDelete = pokemons.findIndex( (pokemonCaughtToDelete) => {
-                        return pokemonCaughtToDelete.number === pokemon.number;
+                        return pokemonCaughtToDelete.id === pokemon.id;
                     });
                     pokemons.splice(indexPokemonToDelete, 1);
                     localStorage.setItem("pokemonCaught", JSON.stringify(pokemons))
