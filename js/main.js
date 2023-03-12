@@ -1,16 +1,4 @@
-class Pokemon{
-    caught;
-    constructor(number, name, species,image){
-        this.number = number;
-        this.name = name;
-        this.species = species;
-        this.caught =false;
-        this.image = image;
-    }
-    setCaught(caught){
-        this.caught = caught;
-    }
-}
+
 
 let pokemons=[];
 let pokemonCaught=[];

@@ -1,4 +1,16 @@
-
+class Pokemon{
+    caught;
+    constructor(number, name, species,image){
+        this.number = number;
+        this.name = name;
+        this.species = species;
+        this.caught =false;
+        this.image = image;
+    }
+    setCaught(caught){
+        this.caught = caught;
+    }
+}
 let pokemons=[];
 function translate(specie) {
     switch (specie) {
@@ -125,13 +137,14 @@ function capitalizeFirstLetter(str) {
 function renderPokemon(listPokemon){
     principalDiv.innerHTML = "";
     listPokemon.forEach((pokemon)=>{
+        let pokemonClass = new Pokemon(pokemon.id, pokemon.name,pokemon.types,pokemon.sprites.front_default);
         const div = document.createElement("div");
         div.className="col-md-2 mt-2"
         const cardDiv = document.createElement("div");
         cardDiv.className="card"
         const img = document.createElement("img");
         img.className="card-img-top"
-        img.src=pokemon.sprites.front_default;
+        img.src=pokemonClass.image;
         img.alt="Imagen de pokemon"
         const cardBodyDiv = document.createElement("div");
         cardBodyDiv.className="card-body"
@@ -139,14 +152,14 @@ function renderPokemon(listPokemon){
         cardBodyTextDiv.className="card-text"
         const pokemonNumberP = document.createElement("p");
         pokemonNumberP.className= "text-black-50"
-        pokemonNumberP.innerHTML = `N.º ${pokemon.id}`
+        pokemonNumberP.innerHTML = `N.º ${pokemonClass.number}`
         const pokemonNameH5 = document.createElement("h5");
-        pokemonNameH5.innerHTML=pokemon.name;
+        pokemonNameH5.innerHTML=pokemonClass.name;
         const speciesDiv = document.createElement("div");
-        for (let i = 0; i < pokemon.types.length; i++) {
+        for (let i = 0; i < pokemonClass.species.length; i++) {
             const spanSpecies = document.createElement("span");
-            spanSpecies.className = `${setBackgroundSpecie(pokemon.types[i].type.name)} m-1 p-1 rounded-pill`
-            spanSpecies.innerHTML = translate(`${pokemon.types[i].type.name}`);
+            spanSpecies.className = `${setBackgroundSpecie(pokemonClass.species[i].type.name)} m-1 p-1 rounded-pill`
+            spanSpecies.innerHTML = translate(`${pokemonClass.species[i].type.name}`);
             speciesDiv.append(spanSpecies);
         }
         const buttonDelete = document.createElement("button");
@@ -156,7 +169,7 @@ function renderPokemon(listPokemon){
 
         buttonDelete.addEventListener("click",()=>{
             Swal.fire({
-                title: `¿Está seguro que desea eliminar a ${pokemon.name}?`,
+                title: `¿Está seguro que desea eliminar a ${pokemonClass.name}?`,
                 icon: 'info',
                 confirmButtonText: 'SÍ',
                 showDenyButton: true,
@@ -164,21 +177,21 @@ function renderPokemon(listPokemon){
             }).then( (resultado) => {
                 if(resultado.isConfirmed) {
                     Swal.fire({
-                        title: `Se elimino ${pokemon.name}`,
+                        title: `Se elimino ${pokemonClass.name}`,
                         icon: 'success',
 
                     });
 
                     localStorage.removeItem("pokemonCaught");
                     const indexPokemonToDelete = pokemons.findIndex( (pokemonCaughtToDelete) => {
-                        return pokemonCaughtToDelete.id === pokemon.id;
+                        return pokemonCaughtToDelete.id === pokemonClass.number;
                     });
                     pokemons.splice(indexPokemonToDelete, 1);
                     localStorage.setItem("pokemonCaught", JSON.stringify(pokemons))
                     renderPokemon(pokemons);
                 } else if(resultado.isDenied) {
                     Swal.fire({
-                        title: `Se cancelo eliminar ${pokemon.name}`,
+                        title: `Se cancelo eliminar ${pokemonClass.name}`,
                         icon: 'error',
                     });
                 }
