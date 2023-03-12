@@ -1,99 +1,91 @@
-
-
-let pokemons=[];
-let pokemonCaught=[];
-let offset = 0;
-let limit = 25;
-const urlLimit = `https://pokeapi.co/api/v2/pokemon-form?limit=${limit}&offset=${offset}`
-let nextUrl = ""
-let previousUrl=null
-const principalUrl = "https://pokeapi.co/api/v2/pokemon-form";
-async function getPokemons(json){
+async function getPokemons(json) {
     pokemons = [];
-    for(let i=offset+1; i<=limit + offset; i++){
-      let response2=   await fetch(`${principalUrl}/${i}`);
-      let pokemon = await response2.json();
-      pokemons.push(pokemon)
+    for (let i = offset + 1; i <= limit + offset; i++) {
+        let response2 = await fetch(`${principalUrl}/${i}`);
+        let pokemon = await response2.json();
+        pokemons.push(pokemon)
     }
-    getPokemonsLS ()
+    getPokemonsLS()
     renderPokemon(pokemons);
 }
-function fetchUrls(url){
+
+function fetchUrls(url) {
     console.log(`Url actual  ${url}`);
-    fetch(url).then((response)=>{
+    fetch(url).then((response) => {
         return response.json();
-    }).catch((err)=>{
+    }).catch((err) => {
         console.log(err);
-    }).then((json)=>{
+    }).then((json) => {
         nextUrl = json.next;
         console.log(`Url siguiente ${nextUrl}`);
         previousUrl = json.previous;
         console.log(`Url anterior ${previousUrl}`);
         getPokemons(json);
 
-    }).catch((err)=>{
+    }).catch((err) => {
         console.log(err);
     });
 }
 
 function translate(specie) {
-        switch (specie) {
-            case "bug":
-                return "Bicho"
-                break;
-            case "dragon":
-                return "Dragon"
-                break;
-            case "fairy":
-                return "Hada"
-                break;
-            case "fire":
-                return "Fuego"
-                break;
-            case "ghost":
-                return "Fantasma"
-                break;
-            case "ground":
-                return "Tierra"
-                break;
-            case "normal":
-                return "Normal"
-                break;
-            case "psychic":
-                return "Psiquico"
-                break;
-            case "steel":
-                return "Acero"
-                break;
-            case "dark":
-                return "Siniestro"
-                break;
-            case "electric":
-                return "Electrico"
-                break;
-            case "fighting":
-                return "Lucha"
-                break;
-            case "flying":
-                return "Volador"
-                break;
-            case "grass":
-                return "Planta"
-                break;
-            case "ice":
-                return "Hielo"
-                break;
-            case "poison":
-                return "Veneno"
-                break;
-            case "rock":
-                return "Roca"
-                break;
-            case "water":
-                return "Agua"
-                break;
+    switch (specie) {
+        case "bug":
+            return "Bicho"
+            break;
+        case "dragon":
+            return "Dragon"
+            break;
+        case "fairy":
+            return "Hada"
+            break;
+        case "fire":
+            return "Fuego"
+            break;
+        case "ghost":
+            return "Fantasma"
+            break;
+        case "ground":
+            return "Tierra"
+            break;
+        case "normal":
+            return "Normal"
+            break;
+        case "psychic":
+            return "Psiquico"
+            break;
+        case "steel":
+            return "Acero"
+            break;
+        case "dark":
+            return "Siniestro"
+            break;
+        case "electric":
+            return "Electrico"
+            break;
+        case "fighting":
+            return "Lucha"
+            break;
+        case "flying":
+            return "Volador"
+            break;
+        case "grass":
+            return "Planta"
+            break;
+        case "ice":
+            return "Hielo"
+            break;
+        case "poison":
+            return "Veneno"
+            break;
+        case "rock":
+            return "Roca"
+            break;
+        case "water":
+            return "Agua"
+            break;
     }
 }
+
 function setBackgroundSpecie(specie) {
     switch (specie) {
         case "bug":
@@ -152,26 +144,28 @@ function setBackgroundSpecie(specie) {
             break;
     }
 }
+
 function capitalizeFirstLetter(str) {
 
     const capitalized = str.replace(/^./, str[0].toUpperCase());
 
     return capitalized;
 }
-function renderPokemon(listPokemon){
+
+function renderPokemon(listPokemon) {
     pokemonBodyTable.innerHTML = "";
-    listPokemon.forEach((pokemon)=>{
+    listPokemon.forEach((pokemon) => {
         const tr = document.createElement("tr");
         const tdNumber = document.createElement("td");
         const span = document.createElement("span");
-        tdNumber.scope="row";
+        tdNumber.scope = "row";
         tdNumber.className = "text-black-50"
         span.innerHTML = `${pokemon.id}`;
         tdNumber.append(span);
         const tdPhoto = document.createElement("td");
         tdPhoto.innerHTML = "";
         const tdName = document.createElement("td");
-        tdName.className="fw-bold"
+        tdName.className = "fw-bold"
         tdName.innerHTML = capitalizeFirstLetter(pokemon.name);
 
         const tdSpecies = document.createElement("td");
@@ -184,39 +178,39 @@ function renderPokemon(listPokemon){
         }
         const tdCaught = document.createElement("td");
         const checkCaughtPokemon = document.createElement("input");
-        checkCaughtPokemon.className="form-check-input"
-        checkCaughtPokemon.setAttribute("type","checkbox");
-        checkCaughtPokemon.defaultChecked =  pokemonCaught.some( (pokemonCau) =>pokemonCau.id ==pokemon.id);
+        checkCaughtPokemon.className = "form-check-input"
+        checkCaughtPokemon.setAttribute("type", "checkbox");
+        checkCaughtPokemon.defaultChecked = pokemonCaught.some((pokemonCau) => pokemonCau.id == pokemon.id);
         checkCaughtPokemon.id = pokemon.id;
         tdCaught.append(checkCaughtPokemon);
-        checkCaughtPokemon.addEventListener("change",()=>{
+        checkCaughtPokemon.addEventListener("change", () => {
                 let caughtCheckId = document.getElementById(checkCaughtPokemon.id);
-                if(caughtCheckId.checked){
+                if (caughtCheckId.checked) {
                     Toastify({
                         text: `Se agrego ${pokemon.name}`,
                         className: "success",
                         gravity: "bottom",
                         position: "right",
-                        style:{
-                            background : "#13803D"
+                        style: {
+                            background: "#13803D"
                         },
                     }).showToast();
                     pokemon.caught = true;
                     pokemonCaught.push(pokemon)
                     localStorage.setItem("pokemonCaught", JSON.stringify(pokemonCaught))
-                }else{
+                } else {
                     Toastify({
                         text: `Se elimino ${pokemon.name}`,
                         className: "delete",
                         gravity: "bottom",
                         position: "right",
-                        style:{
-                            background : "#DC4C64"
+                        style: {
+                            background: "#DC4C64"
                         },
                     }).showToast();
                     localStorage.removeItem("pokemonCaught");
-                    const indexPokemonToDelete = pokemonCaught.findIndex( (pokemonCaughtToDelete) => {
-                        return pokemonCaughtToDelete.id === pokemon .id;
+                    const indexPokemonToDelete = pokemonCaught.findIndex((pokemonCaughtToDelete) => {
+                        return pokemonCaughtToDelete.id === pokemon.id;
                     });
                     pokemonCaught.splice(indexPokemonToDelete, 1);
                     localStorage.setItem("pokemonCaught", JSON.stringify(pokemonCaught))
@@ -233,36 +227,61 @@ function renderPokemon(listPokemon){
     });
 
 }
-function getPokemonsLS () {
+
+function getPokemonsLS() {
     let pokemonsLS = localStorage.getItem("pokemonCaught");
-    pokemonCaught=[];
-    if(pokemonsLS !== null) {
+    pokemonCaught = [];
+    if (pokemonsLS !== null) {
         const pokemonsJSON = JSON.parse(pokemonsLS);
-        for(const pokemonJSON of pokemonsJSON) {
+        for (const pokemonJSON of pokemonsJSON) {
             let pokeAux = pokemonJSON;
             pokemonCaught.push(pokeAux);
         }
     }
 }
-const inputFind= document.getElementById("findPokemon");
+
+let pokemons = [];
+let pokemonCaught = [];
+let offset = 0;
+let limit = 25;
+const urlLimit = `https://pokeapi.co/api/v2/pokemon-form?limit=${limit}&offset=${offset}`
+let nextUrl = ""
+let previousUrl = null
+const principalUrl = "https://pokeapi.co/api/v2/pokemon-form";
+const inputFind = document.getElementById("findPokemon");
 inputFind.addEventListener("input", () => {
     const wordToSearch = inputFind.value;
-    const pokemonsFilter = pokemons.filter( (pokemon) => {
+    const pokemonsFilter = pokemons.filter((pokemon) => {
         return pokemon.name.toLowerCase().includes(wordToSearch.toLowerCase());
     });
     renderPokemon(pokemonsFilter);
 });
 fetchUrls(urlLimit);
-const nextButton= document.getElementById("nextButton");
-nextButton.addEventListener("click", () =>{
+const nextButton = document.getElementById("nextButton");
+nextButton.addEventListener("click", () => {
     fetchUrls(nextUrl);
-    offset +=limit;
+    offset += limit;
 
 })
-const previousButton= document.getElementById("previousButton");
+const previousButton = document.getElementById("previousButton");
 previousButton.className = "page-link";
-previousButton.addEventListener("click", () =>{
-    fetchUrls(previousUrl);
-    offset -= limit;
+previousButton.addEventListener("click", () => {
+    if (previousUrl === null) {
+        Toastify({
+            text: "Ya se encuentra en la primer pagina",
+            className: "info",
+            gravity: "top",
+            position: "center",
+            close: true,
+            style: {
+                background: "#ff075b"
+            },
+        }).showToast();
+
+    } else {
+        fetchUrls(previousUrl);
+        offset -= limit;
+    }
+
 })
 

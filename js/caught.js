@@ -1,17 +1,19 @@
-class Pokemon{
+class Pokemon {
     caught;
-    constructor(number, name, species,image){
+
+    constructor(number, name, species, image) {
         this.number = number;
         this.name = name;
         this.species = species;
-        this.caught =false;
+        this.caught = false;
         this.image = image;
     }
-    setCaught(caught){
+
+    setCaught(caught) {
         this.caught = caught;
     }
 }
-let pokemons=[];
+
 function translate(specie) {
     switch (specie) {
         case "bug":
@@ -70,6 +72,7 @@ function translate(specie) {
             break;
     }
 }
+
 function setBackgroundSpecie(specie) {
     switch (specie) {
         case "bug":
@@ -128,33 +131,35 @@ function setBackgroundSpecie(specie) {
             break;
     }
 }
+
 function capitalizeFirstLetter(str) {
 
     const capitalized = str.replace(/^./, str[0].toUpperCase());
 
     return capitalized;
 }
-function renderPokemon(listPokemon){
+
+function renderPokemon(listPokemon) {
     principalDiv.innerHTML = "";
-    listPokemon.forEach((pokemon)=>{
-        let pokemonClass = new Pokemon(pokemon.id, pokemon.name,pokemon.types,pokemon.sprites.front_default);
+    listPokemon.forEach((pokemon) => {
+        let pokemonClass = new Pokemon(pokemon.id, pokemon.name, pokemon.types, pokemon.sprites.front_default);
         const div = document.createElement("div");
-        div.className="col-md-2 mt-2"
+        div.className = "col-md-2 mt-2"
         const cardDiv = document.createElement("div");
-        cardDiv.className="card"
+        cardDiv.className = "card"
         const img = document.createElement("img");
-        img.className="card-img-top"
-        img.src=pokemonClass.image;
-        img.alt="Imagen de pokemon"
+        img.className = "card-img-top"
+        img.src = pokemonClass.image;
+        img.alt = "Imagen de pokemon"
         const cardBodyDiv = document.createElement("div");
-        cardBodyDiv.className="card-body"
+        cardBodyDiv.className = "card-body"
         const cardBodyTextDiv = document.createElement("div");
-        cardBodyTextDiv.className="card-text"
+        cardBodyTextDiv.className = "card-text"
         const pokemonNumberP = document.createElement("p");
-        pokemonNumberP.className= "text-black-50"
+        pokemonNumberP.className = "text-black-50"
         pokemonNumberP.innerHTML = `N.º ${pokemonClass.number}`
         const pokemonNameH5 = document.createElement("h5");
-        pokemonNameH5.innerHTML=pokemonClass.name;
+        pokemonNameH5.innerHTML = pokemonClass.name;
         const speciesDiv = document.createElement("div");
         for (let i = 0; i < pokemonClass.species.length; i++) {
             const spanSpecies = document.createElement("span");
@@ -163,42 +168,41 @@ function renderPokemon(listPokemon){
             speciesDiv.append(spanSpecies);
         }
         const buttonDelete = document.createElement("button");
-        buttonDelete.type="button";
+        buttonDelete.type = "button";
         buttonDelete.className = "btn btn-outline-danger rounded-3 btn-sm mt-3"
-        buttonDelete.innerHTML="Eliminar"
+        buttonDelete.innerHTML = "Eliminar"
 
-        buttonDelete.addEventListener("click",()=>{
-            Swal.fire({
-                title: `¿Está seguro que desea eliminar a ${pokemonClass.name}?`,
-                icon: 'info',
-                confirmButtonText: 'SÍ',
-                showDenyButton: true,
-                denyButtonText: 'NO',
-            }).then( (resultado) => {
-                if(resultado.isConfirmed) {
-                    Swal.fire({
-                        title: `Se elimino ${pokemonClass.name}`,
-                        icon: 'success',
+        buttonDelete.addEventListener("click", () => {
+                Swal.fire({
+                    title: `¿Está seguro que desea eliminar a ${pokemonClass.name}?`,
+                    icon: 'info',
+                    confirmButtonText: 'SÍ',
+                    showDenyButton: true,
+                    denyButtonText: 'NO',
+                }).then((resultado) => {
+                    if (resultado.isConfirmed) {
+                        Swal.fire({
+                            title: `Se elimino ${pokemonClass.name}`,
+                            icon: 'success',
 
-                    });
+                        });
 
-                    localStorage.removeItem("pokemonCaught");
-                    const indexPokemonToDelete = pokemons.findIndex( (pokemonCaughtToDelete) => {
-                        return pokemonCaughtToDelete.id === pokemonClass.number;
-                    });
-                    pokemons.splice(indexPokemonToDelete, 1);
-                    localStorage.setItem("pokemonCaught", JSON.stringify(pokemons))
-                    renderPokemon(pokemons);
-                } else if(resultado.isDenied) {
-                    Swal.fire({
-                        title: `Se cancelo eliminar ${pokemonClass.name}`,
-                        icon: 'error',
-                    });
-                }
-            });
+                        localStorage.removeItem("pokemonCaught");
+                        const indexPokemonToDelete = pokemons.findIndex((pokemonCaughtToDelete) => {
+                            return pokemonCaughtToDelete.id === pokemonClass.number;
+                        });
+                        pokemons.splice(indexPokemonToDelete, 1);
+                        localStorage.setItem("pokemonCaught", JSON.stringify(pokemons))
+                        renderPokemon(pokemons);
+                    } else if (resultado.isDenied) {
+                        Swal.fire({
+                            title: `Se cancelo eliminar ${pokemonClass.name}`,
+                            icon: 'error',
+                        });
+                    }
+                });
 
             }
-
         )
 
         cardDiv.append(img);
@@ -214,32 +218,32 @@ function renderPokemon(listPokemon){
 
 }
 
-
+let pokemons = [];
 let pokeCaughtJSON = localStorage.getItem("pokemonCaught")
 pokemons = JSON.parse(pokeCaughtJSON);
-if(pokemons.length > 0 ){
-    pokemons.sort((p1,p2)=>(p1.number>p2.number)?1:(p1.number<p2.number)?-1:0);
+if (pokemons.length > 0) {
+    pokemons.sort((p1, p2) => (p1.number > p2.number) ? 1 : (p1.number < p2.number) ? -1 : 0);
     renderPokemon(pokemons);
-}else{
+} else {
     const emptyPokemonDiv = document.createElement("div");
     emptyPokemonDiv.className = "alert alert-danger"
-    emptyPokemonDiv.role="alert"
+    emptyPokemonDiv.role = "alert"
     const emptyPokemonText = document.createElement("p");
     const emptyPokemonHref = document.createElement("a");
     emptyPokemonHref.className = "alert-link"
     emptyPokemonHref.href = "../index.html"
-    emptyPokemonHref.innerHTML="haga click aquí"
-    emptyPokemonText.innerHTML= `No posee pokemones atrapados para volver a la pagina principal `
+    emptyPokemonHref.innerHTML = "haga click aquí"
+    emptyPokemonText.innerHTML = `No posee pokemones atrapados para volver a la pagina principal `
     emptyPokemonText.append(emptyPokemonHref);
     emptyPokemonDiv.append(emptyPokemonText);
     principalDiv.append(emptyPokemonDiv);
 }
 
 
-const inputFind= document.getElementById("findPokemon");
+const inputFind = document.getElementById("findPokemon");
 inputFind.addEventListener("input", () => {
     const wordToSearch = inputFind.value;
-    const pokemonsFilter = pokemons.filter( (pokemon) => {
+    const pokemonsFilter = pokemons.filter((pokemon) => {
         return pokemon.name.toLowerCase().includes(wordToSearch.toLowerCase());
     });
     renderPokemon(pokemonsFilter);
