@@ -1,19 +1,4 @@
 
-class Pokemon{
-    caught;
-    see;
-    constructor(number, name, species,image){
-        this.number = number;
-        this.name = name;
-        this.species = species;
-        this.caught =false;
-        this.image =image;
-    }
-    setCaught(caught){
-        this.caught = caught;
-    }
-
-}
 let pokemons=[];
 function translate(specie) {
     switch (specie) {
