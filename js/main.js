@@ -6,16 +6,27 @@ async function getPokemons(json) {
         pokemons.push(pokemon)
     }
     getPokemonsLS()
+    hideSpinner();
     renderPokemon(pokemons);
+}
+function hideSpinner() {
+    document.getElementById('spinner')
+        .style.display = 'none';
+}
+function showSpinner() {
+    document.getElementById('spinner')
+        .style.display = 'initial';
 }
 
 function fetchUrls(url) {
     console.log(`Url actual  ${url}`);
+    showSpinner();
     fetch(url).then((response) => {
         return response.json();
     }).catch((err) => {
         console.log(err);
     }).then((json) => {
+
         nextUrl = json.next;
         console.log(`Url siguiente ${nextUrl}`);
         previousUrl = json.previous;
